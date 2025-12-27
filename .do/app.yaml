@@ -1,0 +1,16 @@
+name: hardalum-frontend
+static_sites:
+- name: frontend
+  source_dir: /
+  github:
+    repo: your-username/your-repo
+    branch: main
+    deploy_on_push: true
+  build_command: npm run build
+  output_dir: dist
+  environment_slug: node-js
+  envs:
+  - key: NODE_ENV
+    value: production
+  - key: VITE_API_URL
+    value: https://your-backend-app.ondigitalocean.app
