@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom/client'
 import aluminumAccessories from "./assets/aluminum-accessories.png";
+import slide2 from "./assets/slide2.jpg";
+import slide3 from "./assets/slide3.jpeg";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Col, Row, Container, Card, Alert, Spinner } from 'react-bootstrap';
+import { Col, Row, Container, Carousel, Card, Button, Alert, Spinner } from 'react-bootstrap';
 import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom'; // Import Navigate
 import './style.css'
 import ProductDetailsPage from './components/ProductDetailsPage';

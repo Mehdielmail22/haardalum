@@ -10,7 +10,7 @@ const CheckoutPage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { t } = useTranslation();
-  const { user, getToken } = useAuth();
+  const { user, getToken, handleAuthError } = useAuth();
 
   // Check if this is a direct purchase from Buy Now button
   const directPurchase = location.state?.directPurchase;

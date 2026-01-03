@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
+import { FaBoxOpen } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 
 interface NoDataFoundProps {
@@ -7,8 +8,10 @@ interface NoDataFoundProps {
   icon?: React.ElementType;
 }
 
-const NoDataFound: React.FC<NoDataFoundProps> = () => {
+const NoDataFound: React.FC<NoDataFoundProps> = ({ message, icon: Icon = FaBoxOpen }) => {
   const { t } = useTranslation();
+
+  const displayMessage = message || t("No data found matching your criteria.");
 
   return (
     <Container className="">

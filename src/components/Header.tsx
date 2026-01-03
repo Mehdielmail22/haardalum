@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
-import { FaShoppingCart, FaSearch, FaBars, FaMapMarkerAlt, FaTruck, FaUser, FaTimes } from 'react-icons/fa';
+import { FaShoppingCart, FaSearch, FaBars, FaMobileAlt, FaMapMarkerAlt, FaTruck, FaUser, FaTimes, FaPlus } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 import '../style.css'; 
 
@@ -157,11 +157,11 @@ const Header: React.FC = () => {
           <FaBars />
         </div>
         <ul className="nav-links-desktop">
-          <li><NavLink to="/" className={({ isActive }) => isActive ? "active" : ""}>{t("Home")}</NavLink></li>
-          <li><NavLink to="/products" className={({ isActive }) => isActive ? "active" : ""}>{t("Products")}</NavLink></li>
-          <li><NavLink to="/contact" className={({ isActive }) => isActive ? "active" : ""}>{t("Contact")}</NavLink></li>
-          <li><NavLink to="/cart" className={({ isActive }) => isActive ? "active" : ""}>{t("Cart")}</NavLink></li>
-          <li><NavLink to="/orders" className={({ isActive }) => isActive ? "active" : ""}>{t("My Orders")}</NavLink></li>
+          <li><NavLink to="/" activeClassName="active">{t("Home")}</NavLink></li>
+          <li><NavLink to="/products" activeClassName="active">{t("Products")}</NavLink></li>
+          <li><NavLink to="/contact" activeClassName="active">{t("Contact")}</NavLink></li>
+          <li><NavLink to="/cart" activeClassName="active">{t("Cart")}</NavLink></li>
+          <li><NavLink to="/orders" activeClassName="active">{t("My Orders")}</NavLink></li>
         </ul>
         <div className="contact-info">
           <span>N° ECO 0801 02 17 00</span>

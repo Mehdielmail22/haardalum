@@ -1,5 +1,4 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
-import type { ReactNode } from 'react';
+import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 import { type Product, type DimensionOption } from '../data/products'; // Import DimensionOption
 
 // localStorage utility functions
@@ -57,7 +56,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const addToCart = async (product: Product, quantity: number = 1, selectedDimension?: DimensionOption) => {
     // Determine the price and dimension ID to use for the cart item
     const itemPrice = Number(selectedDimension ? selectedDimension.price : (product.price || 0));
-    const dimensionId = selectedDimension?.id || null;
+    const dimensionId = selectedDimension ? selectedDimension.id : null;
 
     try {
       const response = await fetch('http://localhost:5000/api/cart', {
@@ -65,7 +64,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ userId: 1, productId: product.id, dimensionId, quantity }),
+        body: JSON.stringify({ userId, productId: product.id, dimensionId, quantity }),
       });
 
       if (!response.ok) {

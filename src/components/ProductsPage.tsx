@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Col, Nav, Dropdown, Button, Container, Alert } from 'react-bootstrap';
+import { Card, Col, Row, Form, Nav, Dropdown, Button, Container, Alert } from 'react-bootstrap';
 import { FaRegHeart, FaEye, FaShoppingCart, FaTh, FaList } from 'react-icons/fa';
 import { Link, useSearchParams } from 'react-router-dom';
 import { type Product as StaticProduct, products as staticProducts } from '../data/products';
@@ -8,12 +8,17 @@ import { useTranslation } from 'react-i18next';
 import Skeleton from 'react-loading-skeleton'; // Import Skeleton
 import 'react-loading-skeleton/dist/skeleton.css'; // Import skeleton CSS
 import NoDataFound from './NoDataFound'; // Import NoDataFound
+import axios from 'axios';
 import { config } from '../config';
 
+interface DimensionOption {
+  id: number;
+  dimension: string;
+  price: number;
+}
+
 interface Product extends StaticProduct {
-  dimensionsOptions?: import('../data/products').DimensionOption[];
-  category_name?: string;
-  brand?: string;
+  dimensionsOptions?: DimensionOption[];
 }
 
 const ProductsPage: React.FC = () => {
@@ -21,6 +26,8 @@ const ProductsPage: React.FC = () => {
   const [searchParams] = useSearchParams();
   const querySearchTerm = searchParams.get('search') || searchParams.get('query') || '';
   // const [searchTerm, setSearchTerm] = useState(querySearchTerm);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [categories, setCategories] = useState<Array<{id: number, name: string}>>([]);
   const [sortOrder, setSortOrder] = useState("default");
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid'); // New state for view mode
 
@@ -33,6 +40,22 @@ const ProductsPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get(`${config.API_BASE_URL}/api/categories`);
+        setCategories(Array.isArray(response.data) ? response.data : []);
+      } catch (err) {
+        console.error("Failed to fetch categories:", err);
+        // Set default categories if API fails
+        setCategories([
+          { id: 1, name: "Aluminum Extrusions" },
+          { id: 2, name: "Aluminum Sheets" },
+          { id: 3, name: "Aluminum Pipes" },
+          { id: 4, name: "Aluminum Connectors" }
+        ]);
+      }
+    };
+
     const fetchProducts = async () => {
       setLoading(true);
       setError(null);
@@ -58,6 +81,7 @@ const ProductsPage: React.FC = () => {
       setLoading(false);
     };
 
+    fetchCategories();
     fetchProducts();
   }, [querySearchTerm]); // Re-fetch when querySearchTerm changes
 
@@ -71,6 +95,13 @@ const ProductsPage: React.FC = () => {
   };
 
   let displayedProducts = products;
+
+  if (selectedCategory) {
+    const selectedCategoryObj = categories.find(cat => cat.id.toString() === selectedCategory);
+    if (selectedCategoryObj) {
+      displayedProducts = displayedProducts.filter(product => product.category_name === selectedCategoryObj.name);
+    }
+  }
 
   // Helper to get the effective price of a product (either base price or first dimension's price)
   const getEffectivePrice = (product: Product): number => {

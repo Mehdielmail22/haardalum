@@ -111,7 +111,7 @@ const CartPage: React.FC = () => {
                       </div>
                     </div>
                     <div className="d-flex flex-column gap-2">
-                      <Button variant="outline-primary" size="sm" as="a" href={`/product/${item.id}`}>{t("See Details")}</Button>
+                      <Button variant="outline-primary" size="sm" as={Link} to={`/product/${item.id}`}>{t("See Details")}</Button>
                       <Button variant="danger" size="sm" onClick={() => removeFromCart(item.id, item.selectedDimension)}>{t("Remove")}</Button>
                     </div>
                   </ListGroup.Item>
